@@ -1,0 +1,1332 @@
+/* Rotar Buscador Inteligente */
+.rbi {
+    --rbi-blue: #0d3b5c;
+    --rbi-blue2: #1c5f8c;
+    --rbi-sky: #6cbde6;
+    --rbi-orange: #e88936;
+    --rbi-orange-d: #d97823;
+    --rbi-bg: #f4f7fa;
+    --rbi-line: #e3e8ee;
+    color: var(--rbi-blue);
+    box-sizing: border-box;
+    font-size: 15px;
+    line-height: 1.45;
+    border-radius: 16px;
+    padding: 20px 24px;
+    width: calc(100% + 48px);
+    max-width: calc(100% + 48px);
+    margin-left: -24px;
+    margin-right: -24px
+}
+
+.rbi *,
+.rbi *::before,
+.rbi *::after {
+    box-sizing: border-box
+}
+
+.rbi [hidden] {
+    display: none !important
+}
+
+.rbi button {
+    font-family: inherit
+}
+
+/* ---------- Barra ---------- */
+.rbi-top {
+    background: #003555;
+    border-radius: 28px;
+    padding: 12px;
+    margin-bottom: 22px
+}
+
+.rbi--barra .rbi-top {
+    margin-bottom: 0
+}
+
+.rbi-title {
+    margin: 4px 0 12px !important;
+    text-align: center;
+    font-size: 22px !important;
+    color: #fff !important;
+    text-transform: uppercase;
+    letter-spacing: .3px
+}
+
+.rbi-bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: transparent;
+    border-radius: 0;
+    padding: 0;
+    margin: 0
+}
+
+.rbi-bar__box {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex: 1;
+    min-width: 0;
+    background: #fff;
+    border-radius: 999px;
+    padding: 5px 10px 5px 16px
+}
+
+.rbi-bar__icon {
+    display: flex;
+    color: var(--rbi-blue)
+}
+
+.rbi-bar__input {
+    flex: 1;
+    min-width: 0;
+    border: 0 !important;
+    outline: none !important;
+    box-shadow: none !important;
+    background: transparent !important;
+    height: 40px;
+    padding: 0 6px !important;
+    font-size: 15px;
+    color: var(--rbi-blue);
+    font-family: inherit
+}
+
+.rbi-bar__input::-webkit-search-cancel-button {
+    display: none;
+    -webkit-appearance: none
+}
+
+.rbi-bar__clear {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 0 !important;
+    background: #e9eff5 !important;
+    color: var(--rbi-blue) !important;
+    font-size: 13px;
+    font-weight: 800;
+    line-height: 1;
+    padding: 0 !important;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: background .15s, color .15s
+}
+
+.rbi-bar__clear:hover {
+    background: var(--rbi-orange) !important;
+    color: #fff !important
+}
+
+.rbi-bar__btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--rbi-orange);
+    color: #fff !important;
+    border: 1.5px solid rgba(255, 255, 255, .85) !important;
+    border-radius: 999px;
+    height: 50px;
+    padding: 0 34px;
+    font-family: 'Montserrat', 'Lato', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+    font-weight: 700 !important;
+    font-size: 15px !important;
+    letter-spacing: 1.4px !important;
+    line-height: 1 !important;
+    text-transform: uppercase !important;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, .14);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, .15);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    cursor: pointer;
+    white-space: nowrap;
+    flex-shrink: 0;
+    transition: background .2s, border-color .2s, transform .15s, box-shadow .2s
+}
+
+.rbi-bar__btn:hover {
+    background: var(--rbi-orange-d);
+    border-color: #fff !important;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, .22);
+    transform: translateY(-1px)
+}
+
+.rbi-bar__btn[disabled] {
+    opacity: .6;
+    cursor: wait
+}
+
+.rbi-ai-toggle {
+    display: none !important
+}
+
+.rbi-chips {
+    display: none !important
+}
+
+.rbi-msg__foot {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px
+}
+
+.rbi-chip {
+    background: rgba(255, 255, 255, .9);
+    border: 1px solid transparent;
+    color: var(--rbi-blue);
+    border-radius: 999px;
+    padding: 6px 13px;
+    font-size: 12.5px;
+    cursor: pointer;
+    line-height: 1.2;
+    transition: all .15s
+}
+
+.rbi-chip:hover {
+    border-color: var(--rbi-orange);
+    color: var(--rbi-orange-d);
+    background: #fff
+}
+
+.rbi-reset,
+.rbi--active .rbi-reset {
+    display: none !important
+}
+
+/* ---------- Layout ---------- */
+.rbi-body {
+    display: grid;
+    grid-template-columns: 280px minmax(0, 1fr);
+    gap: 20px;
+    align-items: start
+}
+
+.rbi--barra .rbi-body {
+    margin-top: 18px
+}
+
+.rbi-more {
+    background: #fff;
+    color: var(--rbi-blue);
+    border: 2px solid #fff;
+    border-radius: 999px;
+    padding: 10px 26px;
+    font-weight: 700;
+    cursor: pointer
+}
+
+.rbi-more:hover {
+    background: var(--rbi-orange);
+    border-color: var(--rbi-orange);
+    color: #fff
+}
+
+.rbi-body:not(:has(.rbi-filters)) {
+    grid-template-columns: minmax(0, 1fr)
+}
+
+.rbi-filters {
+    background: #fff;
+    border: 1px solid var(--rbi-line);
+    border-radius: 14px;
+    padding: 16px;
+    position: sticky;
+    top: 110px
+}
+
+.rbi-filters__head {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 14px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--rbi-line);
+    text-align: center
+}
+
+.rbi-filters__head strong {
+    order: 1;
+    width: 100%;
+    font-size: 15px;
+    white-space: nowrap;
+    text-transform: uppercase;
+    letter-spacing: .3px;
+    text-align: center
+}
+
+.rbi-filters__close {
+    position: absolute;
+    top: -4px;
+    right: 0
+}
+
+.rbi-clear-wrap {
+    text-align: center;
+    margin-top: 14px;
+    padding-top: 12px;
+    border-top: 1px solid var(--rbi-line)
+}
+
+.rbi-clear {
+    flex: 0 0 auto;
+    background: var(--rbi-bg) !important;
+    border: 1px solid var(--rbi-line) !important;
+    color: var(--rbi-blue) !important;
+    text-decoration: none !important;
+    border-radius: 999px;
+    padding: 4px 12px !important;
+    font-size: 12px !important;
+    font-weight: 700;
+    cursor: pointer;
+    line-height: 1.4;
+    transition: all .15s
+}
+
+.rbi-clear:hover {
+    background: var(--rbi-orange) !important;
+    border-color: var(--rbi-orange) !important;
+    color: #fff !important
+}
+
+.rbi-filters__close,
+.rbi-filters__apply,
+.rbi-filters__open {
+    display: none
+}
+
+.rbi-link {
+    background: none !important;
+    border: 0 !important;
+    color: var(--rbi-blue2) !important;
+    text-decoration: underline;
+    cursor: pointer;
+    font-size: 13px;
+    padding: 2px !important
+}
+
+.rbi-field {
+    display: block;
+    margin: 0 0 12px
+}
+
+.rbi-field span {
+    display: block;
+    font-size: 12.5px;
+    font-weight: 700;
+    margin-bottom: 4px;
+    text-transform: uppercase;
+    letter-spacing: .2px;
+    opacity: .85
+}
+
+.rbi-field select {
+    width: 100%;
+    padding: 9px 10px;
+    border: 1px solid #d3dbe3;
+    border-radius: 8px;
+    background: #fff;
+    color: var(--rbi-blue);
+    font-size: 14px
+}
+
+.rbi-field select:focus {
+    outline: none;
+    border-color: var(--rbi-orange)
+}
+
+.rbi-checks,
+.rbi-field:has([data-f="etiqueta"]) {
+    display: none !important
+}
+
+.rbi-main {
+    min-width: 0
+}
+
+.rbi-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin: 0 0 14px;
+    flex-wrap: wrap;
+    background: #fff;
+    border: 1px solid var(--rbi-line);
+    border-radius: 12px;
+    padding: 8px 12px
+}
+
+.rbi-count {
+    font-weight: 700
+}
+
+.rbi-toolbar__right {
+    display: flex;
+    gap: 8px;
+    align-items: center
+}
+
+.rbi-sort {
+    padding: 8px 10px;
+    border: 1px solid #d3dbe3;
+    border-radius: 8px;
+    background: #fff;
+    color: var(--rbi-blue);
+    font-size: 14px
+}
+
+.rbi--busy .rbi-grid {
+    opacity: .45;
+    pointer-events: none;
+    transition: opacity .2s
+}
+
+/* ---------- Conversación ---------- */
+.rbi-thread {
+    display: flex;
+    flex-direction: column;
+    gap: 12px
+}
+
+.rbi-thread:not(:empty) {
+    margin-bottom: 18px
+}
+
+.rbi-msg {
+    display: flex;
+    flex-direction: column;
+    scroll-margin-top: 130px
+}
+
+.rbi-msg--user {
+    align-items: flex-end
+}
+
+.rbi-msg__bubble {
+    border-radius: 12px;
+    padding: 12px 16px;
+    max-width: 100%
+}
+
+.rbi-msg__bubble p {
+    margin: 0 0 8px
+}
+
+.rbi-msg__bubble p:last-child {
+    margin: 0
+}
+
+.rbi-msg--user .rbi-msg__bubble {
+    background: var(--rbi-blue);
+    color: #fff;
+    max-width: 85%;
+    border-bottom-right-radius: 4px
+}
+
+.rbi-msg--bot .rbi-msg__bubble {
+    background: var(--rbi-bg);
+    border-left: 4px solid var(--rbi-orange);
+    border-bottom-left-radius: 4px
+}
+
+.rbi-msg--error .rbi-msg__bubble {
+    border-left-color: #c0392b;
+    background: #fff4f2
+}
+
+.rbi-msg__tag {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--rbi-orange), var(--rbi-blue2));
+    color: #fff;
+    font-size: 11px;
+    font-weight: 800;
+    padding: 2px 8px;
+    border-radius: 999px;
+    margin-bottom: 6px;
+    letter-spacing: .3px
+}
+
+.rbi-msg__hint {
+    font-size: 13px;
+    opacity: .85
+}
+
+.rbi-msg__cats {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px dashed #d3dbe3
+}
+
+.rbi-msg__cats-label {
+    font-size: 12.5px;
+    font-weight: 700;
+    color: var(--rbi-blue)
+}
+
+.rbi-cat-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--rbi-blue);
+    color: #fff !important;
+    text-decoration: none !important;
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-size: 13px;
+    line-height: 1.2;
+    transition: background .18s, transform .15s
+}
+
+.rbi-cat-pill:hover {
+    background: var(--rbi-orange);
+    color: #fff !important;
+    transform: translateY(-1px)
+}
+
+.rbi-cat-pill span {
+    opacity: .85;
+    font-size: 12px
+}
+
+.rbi-cat-pill em {
+    font-style: normal;
+    font-weight: 700;
+    color: #ffd39b;
+    margin-left: 2px
+}
+
+.rbi-cat-pill:hover em {
+    color: #fff
+}
+
+.rbi-msg__foot {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+    margin-top: 10px
+}
+
+.rbi-msg__refine-label {
+    width: 100%;
+    font-size: 12.5px;
+    font-weight: 700;
+    color: var(--rbi-blue);
+    margin-bottom: 2px
+}
+
+.rbi-chip--follow {
+    background: #fff;
+    border-color: #d6dee6
+}
+
+.rbi-msg__admin {
+    margin-top: 8px;
+    font-size: 12px;
+    color: #a00;
+    background: #fff4f4;
+    padding: 6px 10px;
+    border-radius: 6px
+}
+
+.rbi-wa {
+    background: #25d366;
+    color: #fff !important;
+    border-radius: 999px;
+    padding: 7px 15px;
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none !important
+}
+
+.rbi-wa:hover {
+    background: #1ebe5a
+}
+
+.rbi-dots {
+    display: inline-flex;
+    gap: 4px;
+    margin-right: 6px;
+    vertical-align: middle
+}
+
+.rbi-dots i {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--rbi-orange);
+    animation: rbiDot 1s infinite ease-in-out
+}
+
+.rbi-dots i:nth-child(2) {
+    animation-delay: .15s
+}
+
+.rbi-dots i:nth-child(3) {
+    animation-delay: .3s
+}
+
+@keyframes rbiDot {
+
+    0%,
+    80%,
+    100% {
+        transform: scale(.5);
+        opacity: .4
+    }
+
+    40% {
+        transform: scale(1);
+        opacity: 1
+    }
+}
+
+/* ---------- Tarjetas ---------- */
+.rbi-grid {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 14px
+}
+
+.rbi-empty {
+    grid-column: 1/-1;
+    background: var(--rbi-bg);
+    border-radius: 12px;
+    padding: 22px;
+    text-align: center
+}
+
+.rbi-card {
+    position: relative;
+    background: #fff;
+    border: 1px solid #e6ebf0;
+    border-radius: 12px;
+    padding: 14px 12px 14px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .05);
+    transition: box-shadow .2s, transform .2s;
+    min-width: 0;
+    min-height: 430px
+}
+
+.rbi-card:hover {
+    box-shadow: 0 8px 20px rgba(13, 59, 92, .12);
+    transform: translateY(-2px)
+}
+
+.rbi-card--rec {
+    border: 2px solid var(--rbi-orange)
+}
+
+.rbi-card__flag {
+    position: absolute;
+    top: 206px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--rbi-orange);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 800;
+    padding: 3px 10px;
+    border-radius: 999px;
+    z-index: 4;
+    white-space: nowrap;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, .2)
+}
+
+.rbi-card .rep-badges-wrapper {
+    top: 10px !important;
+    left: 10px !important;
+    right: 10px !important;
+    z-index: 3
+}
+
+.rbi-card__img img {
+    width: 100%;
+    height: 210px;
+    object-fit: contain;
+    display: block;
+    margin: 6px 0 14px
+}
+
+.rbi-card__badges {
+    display: none !important
+}
+
+.rbi-badge {
+    background: var(--rbi-bg);
+    color: var(--rbi-blue2);
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 5px
+}
+
+.rbi-card__title {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    text-align: center;
+    line-height: 1.25;
+    color: var(--rbi-blue) !important;
+    text-decoration: none !important;
+    margin-bottom: 4px;
+    overflow: hidden;
+    height: calc(1.25em * 3)
+}
+
+.rbi-card__why {
+    font-size: 13px;
+    line-height: 1.4;
+    margin: 0 0 10px !important;
+    color: #2c5a35;
+    background: #eef8f0;
+    border-radius: 6px;
+    padding: 8px
+}
+
+.rbi-card__specs {
+    list-style: none;
+    margin: auto 0 0 !important;
+    padding: 10px 0 0 !important;
+    border-top: 1px solid #edf0f3;
+    font-size: 12.5px
+}
+
+.rbi-card__specs li {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    margin: 3px 0;
+    list-style: none
+}
+
+.rbi-card__specs li span {
+    opacity: .7;
+    white-space: nowrap
+}
+
+.rbi-card__specs li strong {
+    text-align: right;
+    font-weight: 600
+}
+
+.rbi-card__foot {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 2px;
+    margin: 4px 0 16px;
+    padding-top: 0;
+    min-height: 48px;
+    text-align: center
+}
+
+.rbi-card__old {
+    width: 100%;
+    font-size: 15px;
+    font-weight: 400 !important;
+    color: #ff0000 !important;
+    display: block;
+    line-height: 1.3;
+    text-align: center;
+    margin-bottom: 2px
+}
+
+.rbi-card__old del {
+    font-size: 16px;
+    font-weight: 700 !important;
+    color: #ff0000 !important;
+    text-decoration: line-through;
+    text-decoration-color: #ff0000 !important;
+    text-decoration-thickness: 2px;
+    font-style: normal
+}
+
+.rbi-card__price {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 5px;
+    line-height: 1.1;
+    color: #003555;
+    white-space: nowrap
+}
+
+.rbi-card__price strong {
+    font-size: 26px;
+    font-weight: 800;
+    letter-spacing: -.3px
+}
+
+.rbi-card__price small {
+    font-size: 13px;
+    font-weight: 700;
+    color: #111
+}
+
+.rbi-card__nostock {
+    font-size: 12px;
+    color: #b03a2e;
+    font-weight: 700
+}
+
+.rbi-card__btn {
+    display: block;
+    margin-top: auto;
+    background: #dd7212;
+    color: #fff !important;
+    text-align: center;
+    padding: 12px 10px;
+    border-radius: 4px;
+    text-decoration: none !important;
+    font-family: 'Montserrat', 'Inter', -apple-system, 'Segoe UI', Arial, sans-serif;
+    font-weight: 800;
+    font-size: 15px;
+    letter-spacing: .6px;
+    text-transform: uppercase;
+    line-height: 1.2;
+    transition: background .2s
+}
+
+.rbi-card__btn:hover {
+    background: #c46410
+}
+
+.rbi-more-wrap {
+    text-align: center;
+    margin-top: 40px;
+    margin-bottom: 10px
+}
+
+/* ---------- Móvil ---------- */
+@media (max-width:1280px) {
+    .rbi-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr))
+    }
+}
+
+@media (max-width:1060px) {
+    .rbi-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 12px
+    }
+}
+
+@media (max-width:900px) {
+    .rbi-body {
+        grid-template-columns: minmax(0, 1fr)
+    }
+
+    .rbi {
+        width: 100%;
+        max-width: 100%;
+        margin-left: 0;
+        margin-right: 0;
+        padding: 14px;
+        border-radius: 12px
+    }
+
+    .rbi-filters {
+        position: fixed;
+        inset: 0 auto 0 0;
+        width: min(340px, 88vw);
+        z-index: 99999;
+        border-radius: 0 14px 14px 0;
+        overflow: auto;
+        transform: translateX(-105%);
+        transition: transform .25s;
+        box-shadow: 0 0 40px rgba(0, 0, 0, .25);
+        top: 0
+    }
+
+    .rbi--filters-open .rbi-filters {
+        transform: none
+    }
+
+    .rbi-filters__close {
+        display: block;
+        background: none;
+        border: 0;
+        font-size: 26px;
+        line-height: 1;
+        cursor: pointer;
+        color: var(--rbi-blue)
+    }
+
+    .rbi-filters__apply {
+        display: block;
+        width: 100%;
+        margin-top: 12px;
+        background: var(--rbi-orange);
+        color: #fff;
+        border: 0;
+        border-radius: 8px;
+        padding: 12px;
+        font-weight: 700;
+        cursor: pointer
+    }
+
+    .rbi-filters__open {
+        display: inline-block;
+        background: var(--rbi-blue);
+        color: #fff;
+        border: 0;
+        border-radius: 8px;
+        padding: 8px 14px;
+        font-weight: 700;
+        cursor: pointer
+    }
+}
+
+@media (max-width:640px) {
+    .rbi {
+        margin-left: auto;
+        margin-right: auto;
+        padding: 12px
+    }
+
+    .rbi-top {
+        border-radius: 22px;
+        padding: 10px
+    }
+
+    .rbi-bar {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+        background: transparent !important;
+        border-radius: 0;
+        padding: 0
+    }
+
+    .rbi-bar__box {
+        width: 100%;
+        background: #fff;
+        border-radius: 999px;
+        padding: 5px 8px 5px 14px
+    }
+
+    .rbi-bar__input {
+        flex: 1 1 auto;
+        height: 38px
+    }
+
+    .rbi-bar__btn {
+        order: 2;
+        flex: none;
+        width: auto;
+        min-width: 170px;
+        padding: 0 28px;
+        height: 40px;
+        align-self: center;
+        margin: 0 auto;
+        border-radius: 999px
+    }
+
+    .rbi-body {
+        padding: 0
+    }
+
+    .rbi-main {
+        width: 100%;
+        margin: 0 auto
+    }
+
+    .rbi-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+        justify-content: center;
+        margin: 0 auto;
+        width: 100%
+    }
+
+    .rbi-card {
+        padding: 10px;
+        min-height: 340px
+    }
+
+    .rbi-card__img img {
+        height: 150px
+    }
+
+    .rbi-card__flag {
+        top: 140px
+    }
+
+    .rbi-card__title {
+        font-size: 12.5px
+    }
+
+    .rbi-card__old {
+        font-size: 11.5px
+    }
+
+    .rbi-card__old del {
+        font-size: 12px
+    }
+
+    .rbi-card__price strong {
+        font-size: 19px
+    }
+
+    .rbi-card__price small {
+        font-size: 11px
+    }
+
+    .rbi-card__btn {
+        font-size: 13px;
+        padding: 11px 6px;
+        letter-spacing: .3px
+    }
+
+    .rbi-toolbar {
+        padding: 8px 10px
+    }
+
+    .rbi-title {
+        font-size: 18px !important
+    }
+}
+
+/* ---------- Pestaña Buscador Técnico (#003555) ---------- */
+.tabs-buscador .elementor-tab-title[data-tab="2"],
+.tabs-buscador .elementor-tabs-wrapper .elementor-tab-title:nth-child(2),
+.tabs-buscador .elementor-tab-title:last-of-type {
+    background-color: #003555 !important;
+    background: #003555 !important;
+    color: #ffffff !important;
+    border-color: #003555 !important;
+    border-radius: 5px 5px 0 0 !important
+}
+
+@media (max-width:767px) {
+    .tabs-buscador .elementor-tabs-wrapper {
+        display: flex !important;
+        flex-wrap: nowrap !important
+    }
+
+    .tabs-buscador .elementor-tab-title {
+        width: 50% !important;
+        flex: 0 0 50% !important;
+        text-align: center !important;
+        box-sizing: border-box !important
+    }
+
+    .tabs-buscador .elementor-tab-mobile-title {
+        display: none !important
+    }
+
+    .tabs-buscador .elementor-tab-title[data-tab="2"],
+    .tabs-buscador .elementor-tabs-wrapper .elementor-tab-title:nth-child(2),
+    .tabs-buscador .elementor-tab-title:last-of-type {
+        background-color: #003555 !important;
+        background: #003555 !important;
+        color: #ffffff !important;
+        border-color: #003555 !important;
+        border-radius: 5px 5px 0 0 !important
+    }
+}
+
+/* ---------- Filtro horizontal por categoría ([rotar_filtros_categoria]) ---------- */
+.rbi-cat {
+    --rbi-blue: #0d3b5c;
+    --rbi-blue2: #1c5f8c;
+    --rbi-orange: #e88936;
+    --rbi-bg: #f4f7fa;
+    --rbi-line: #e3e8ee;
+    color: var(--rbi-blue);
+    font-size: 15px;
+    line-height: 1.45;
+    width: 100%;
+    margin: 16px 0 22px;
+    clear: both;
+    box-sizing: border-box
+}
+
+.rbi-cat *,
+.rbi-cat *::before,
+.rbi-cat *::after {
+    box-sizing: border-box
+}
+
+.rbi-cat [hidden] {
+    display: none !important
+}
+
+.rbi-cat__bar {
+    background: #fff;
+    border: 1px solid var(--rbi-line);
+    border-radius: 14px;
+    padding: 14px 16px 16px;
+    box-shadow: 0 2px 10px rgba(13, 59, 92, .06)
+}
+
+.rbi-cat__head {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    text-align: center;
+    gap: 8px;
+    margin: 8px 0 26px !important;
+    padding-bottom: 14px !important
+}
+
+.rbi-cat__title {
+    font-size: 14px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: .3px
+}
+
+.rbi-cat__status {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--rbi-blue2)
+}
+
+.rbi-cat__toggle {
+    display: none;
+    margin-left: auto;
+    background: var(--rbi-blue) !important;
+    color: #fff !important;
+    border: 0 !important;
+    border-radius: 999px;
+    padding: 6px 14px !important;
+    font-size: 13px !important;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: inherit
+}
+
+.rbi-cat__fields {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 10px 12px
+}
+
+.rbi-cat__field {
+    flex: 1 1 150px;
+    min-width: 140px;
+    margin: 0
+}
+
+.rbi-cat__field--q {
+    flex: 1.6 1 220px
+}
+
+.rbi-cat__field span {
+    display: block;
+    font-size: 11.5px;
+    font-weight: 700;
+    margin-bottom: 4px;
+    text-transform: uppercase;
+    letter-spacing: .2px;
+    text-align: center;
+    opacity: .85;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis
+}
+
+.rbi-cat__field select,
+.rbi-cat__field input {
+    width: 100%;
+    height: 40px;
+    padding: 8px 10px;
+    border: 1px solid #d3dbe3;
+    border-radius: 8px;
+    background: #fff;
+    color: var(--rbi-blue);
+    font-size: 14px;
+    font-family: inherit;
+    margin: 0
+}
+
+.rbi-cat__field select:focus,
+.rbi-cat__field input:focus {
+    outline: none;
+    border-color: var(--rbi-orange)
+}
+
+.rbi-cat__field.is-set select,
+.rbi-cat__field.is-set input {
+    border-color: var(--rbi-orange);
+    background: #fff8f1
+}
+
+.rbi-cat__actions {
+    flex: 0 0 auto
+}
+
+.rbi-cat__clear {
+    height: 40px;
+    background: var(--rbi-bg) !important;
+    border: 1px solid var(--rbi-line) !important;
+    color: var(--rbi-blue) !important;
+    border-radius: 8px;
+    padding: 0 14px !important;
+    font-size: 13px !important;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: inherit;
+    white-space: nowrap;
+    transition: all .15s
+}
+
+.rbi-cat__clear:not([disabled]):hover {
+    background: var(--rbi-orange) !important;
+    border-color: var(--rbi-orange) !important;
+    color: #fff !important
+}
+
+.rbi-cat__clear[disabled] {
+    opacity: .45;
+    cursor: default
+}
+
+.rbi-cat__results {
+    margin-top: 18px
+}
+
+.rbi-cat__toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+    flex-wrap: wrap
+}
+
+.rbi-cat__total {
+    font-weight: 700
+}
+
+.rbi-cat__sort {
+    height: 38px;
+    padding: 6px 10px;
+    border: 1px solid #d3dbe3;
+    border-radius: 8px;
+    background: #fff;
+    color: var(--rbi-blue);
+    font-size: 14px;
+    width: auto
+}
+
+.rbi-cat .rbi-grid {
+    grid-template-columns: repeat(5, minmax(0, 1fr))
+}
+
+@media (max-width:1280px) {
+    .rbi-cat .rbi-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr))
+    }
+}
+
+.rbi-cat--busy .rbi-grid,
+.rbi-cat--busy .rbi-cat__fields {
+    opacity: .55;
+    pointer-events: none;
+    transition: opacity .15s
+}
+
+/* Listado nativo de la categoría: oculto solo mientras hay filtros activos. */
+.rbi-cat-hide {
+    display: none !important
+}
+
+/* Menos espacio en blanco sobre el filtro: la sección de productos de la plantilla de categoría trae margen superior. */
+.elementor-top-section:has(.rbi-cat),
+.e-con.e-parent:has(.rbi-cat) {
+    margin-top: 0 !important;
+    padding-top: 0 !important
+}
+
+.elementor-column:has(.rbi-cat)>.elementor-element-populated {
+    margin-top: 0 !important;
+    padding-top: 0 !important
+}
+
+/* Sección justo antes (descripción de la categoría): sin margen inferior extra. */
+.elementor-top-section:has(+ .elementor-top-section .rbi-cat) {
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important
+}
+
+.elementor-top-section:has(+ .elementor-top-section .rbi-cat) p:last-child {
+    margin-bottom: 0 !important
+}
+
+@media (max-width:1024px) {
+    .rbi-cat .rbi-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr))
+    }
+}
+
+@media (max-width:767px) {
+    .rbi-cat__bar {
+        padding: 12px
+    }
+
+    .rbi-cat__head {
+        margin: 0 !important;
+        padding-bottom: 0 !important;
+        justify-content: space-between;
+        text-align: left
+    }
+
+    .rbi-cat--open .rbi-cat__head {
+        margin-bottom: 10px !important
+    }
+
+    .rbi-cat__toggle {
+        display: inline-block
+    }
+
+    .rbi-cat__fields {
+        display: none
+    }
+
+    .rbi-cat--open .rbi-cat__fields {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px
+    }
+
+    .rbi-cat__field,
+    .rbi-cat__field--q {
+        min-width: 0
+    }
+
+    .rbi-cat__field--q,
+    .rbi-cat__actions {
+        grid-column: 1/-1
+    }
+
+    .rbi-cat__clear {
+        width: 100%
+    }
+
+    .rbi-cat .rbi-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px
+    }
+}
